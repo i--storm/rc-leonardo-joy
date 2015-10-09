@@ -6,6 +6,10 @@ boolean usePPM = true;
 #define RC_CHANS 5
 volatile uint16_t rcValue[RC_CHANS] = {1502, 1502, 1502, 1502, 1502};
 
+#define LED_PIN 13
+byte led = 1;
+
+
 const bool testAutoSendMode = false;
 
 enum {
@@ -39,6 +43,9 @@ void loop(){
   Serial.print(controllerData.rightStickY);      Serial.print("     ");
   Serial.print(controllerData.leftStickX);    Serial.print("     ");
   Serial.print(controllerData.leftStickY);     Serial.println("     ");
+
+  led=!led;
+  digitalWrite(LED_PIN,led);
   
   delay(5);
 }
@@ -65,6 +72,8 @@ void setupPins(void){
   
   if ( usePPM ) 
     attachInterrupt(digitalPinToInterrupt(0), rxInt, RISING);
+
+  pinMode(LED_PIN,OUTPUT);
 }
 
 dataForController_t getControllerData(void){
