@@ -8,6 +8,7 @@ volatile uint16_t rcValue[RC_CHANS] = {1502, 1502, 1502, 1502, 1502};
 
 #define LED_PIN 13
 byte led = 1;
+int led_cnt = 0;
 
 
 const bool testAutoSendMode = false;
@@ -44,8 +45,12 @@ void loop(){
   Serial.print(controllerData.leftStickX);    Serial.print("     ");
   Serial.print(controllerData.leftStickY);     Serial.println("     ");
 
-  led=!led;
-  digitalWrite(LED_PIN,led);
+  led_cnt=led_cnt++;
+  if(led_cnt>200){
+    led=!led;
+    digitalWrite(LED_PIN,led);
+    led_cnt=0;
+  }
   
   delay(5);
 }
